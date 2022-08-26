@@ -1,0 +1,107 @@
+<template >
+    <lightning-card if:true={newAccount} style="width:500px">
+    <div class="slds-p-bottom_large slds-align_absolute-center slds-p-left_large" style="width:500px">
+        <lightning-record-edit-form 
+            if:false={editAccount} 
+            onsuccess={handleUpdate}
+             
+            object-api-name={objectApiName}>
+            <lightning-messages></lightning-messages>
+            <lightning-input-field field-name="Name"> </lightning-input-field>
+            <lightning-input-field field-name="BillingAddress"></lightning-input-field>
+            <lightning-input-field field-name="Industry"> </lightning-input-field>
+            <lightning-input-field field-name="Phone"> </lightning-input-field>
+            <lightning-button
+            if:false={selectedRecord}
+            class="slds-align_absolute-center"
+            type="submit"
+            name="submit"
+            label="Save"
+            
+        >
+        </lightning-button>
+        
+            <div if:true={selectedRecord}>
+                <lightning-button 
+                    label="Edit"
+                    class="slds-align_absolute-left"
+                    onclick={handleEdit}
+                    style="margin:5px"
+                ></lightning-button>
+                <lightning-button 
+                    slot="actions" 
+                    variant="destructive" 
+                    label="Delete" 
+                    onclick={deleteRecord}
+                ></lightning-button>
+            </div>
+        
+        </lightning-record-edit-form>
+    </div>
+</lightning-card>
+
+<lightning-card  if:true={editAccount} style="width:500px">
+    <div class="slds-p-bottom_large slds-align_absolute-center slds-p-left_large" style="width:500px">
+        <lightning-record-edit-form 
+            record-id={selectedRecord.Id}
+            object-api-name={objectApiName}
+            onsuccess={handleUpdate}>
+            <lightning-messages></lightning-messages>
+            <lightning-input-field field-name="Name"> </lightning-input-field>
+            <lightning-input-field field-name="BillingAddress"></lightning-input-field>
+            <lightning-input-field field-name="Industry"> </lightning-input-field>
+            <lightning-input-field field-name="Phone"> </lightning-input-field>
+            <lightning-button
+                class="slds-align_absolute-center"
+                type="submit"
+                name="submit"
+                label="update"
+                
+            >
+            </lightning-button>
+        </lightning-record-edit-form>
+    </div>
+</lightning-card>
+
+    
+    <lightning-card title="Account List">
+       
+        <template if:true={accounts.data}>
+        <div id="dataTable"  class="slds-box">
+            <lightning-datatable
+                style="width:500px"
+                key-field="Id"
+                data={accounts.data}
+                onrowselection={handleRowSelection}
+                columns={columns}
+                max-row-selection=1>
+           </lightning-datatable>
+
+          
+        </div>
+        <div class="slds-m-around_medium">
+            <lightning-layout horizontal-align="space">
+                <lightning-layout-item flexibility="auto">
+                    <lightning-button 
+                    label="Previous" 
+                    icon-name="utility:chevronleft" 
+                    icon-position="left"
+                    onclick={prevHandler}>
+                </lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto">
+                    Page {page} of {totalPage}
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto">
+                    <lightning-button 
+                        label="Next" 
+                        icon-name="utility:chevronright" 
+                        icon-position="right"
+                        onclick={nextHandler}>
+                    </lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        </template>
+    </lightning-card>
+</template>
