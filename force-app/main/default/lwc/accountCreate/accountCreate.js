@@ -32,22 +32,22 @@ export default class AccountCreate extends LightningElement {
     @track next;
 
     totalRecords;
-    showRecords;
-    @track pageSize = 5;
+    @track showRecords;
+    @track pageSize = 20;
     @track editAccount = false;
     selectedRecord;
     columns = COLUMNS;
     fields = [Id,Name,BillingAddress,Industry,Phone];
 
     @wire(getAccounts)
-    accounts;
-//    wiredAccount({data}){
-//     if(data){
-//         this.totalRecords=data
-//         this.showRecords=this.totalRecords.slice(0,this.pageSize)
-//         console.log(this.totalRecords)
-//     }
-//    }
+   wiredAccount(value){
+    
+    if(value){
+        this.totalRecords=value
+        this.showRecords=this.totalRecords.data //.slice(0,this.pageSize)
+        console.log(this.totalRecords)
+    }
+   }
 
     connectedCallback(){
     
@@ -63,7 +63,7 @@ export default class AccountCreate extends LightningElement {
             variant: "success"
         });
         this.dispatchEvent(toastEvent);
-        return refreshApex(this.accounts)
+        return refreshApex(this.totalRecords)
 
     }
     handleUpdate(event) {
@@ -76,7 +76,7 @@ export default class AccountCreate extends LightningElement {
             variant: "success"
         });
         this.dispatchEvent(toastEvent);
-        return refreshApex(this.accounts)
+        return refreshApex(this.totalRecords)
     }
     handleRowSelection = event => {
         this.newAccount=true;
@@ -95,13 +95,13 @@ export default class AccountCreate extends LightningElement {
         var selectedRecords = this.template.querySelector("lightning-datatable").getSelectedRows();  
         deleteAccount({accounts: selectedRecords})  
         .then(result=>{  
-            return refreshApex(this.accounts);  
+            return refreshApex(this.totalRecords);  
         })  
         .catch(error=>{  
             alert('Account did not got delete'+JSON.stringify(error));  
             
         })  
-        return refreshApex(this.accounts)
+        return refreshApex(this.totalRecords)
     }  
 
     handleEdit(){

@@ -66,12 +66,12 @@
     
     <lightning-card title="Account List">
        
-        <template if:true={accounts.data}>
+        <template if:true={showRecords}>
         <div id="dataTable"  class="slds-box">
             <lightning-datatable
                 style="width:500px"
                 key-field="Id"
-                data={accounts.data}
+                data={showRecords}
                 onrowselection={handleRowSelection}
                 columns={columns}
                 max-row-selection=1>
